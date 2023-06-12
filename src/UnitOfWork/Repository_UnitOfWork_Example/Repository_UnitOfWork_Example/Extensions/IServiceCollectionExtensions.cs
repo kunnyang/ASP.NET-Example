@@ -22,6 +22,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         services
+            .AddScoped<IUnitOfWork,UnitOfWork>()
             .AddScoped(typeof(IRepository<>), typeof(Repository<>))
             .AddScoped<IDepartmentRepository, DepartmentRepository>()
             .AddScoped<IUserRepository, UserRepository>()

@@ -1,4 +1,5 @@
-﻿using Repository_UnitOfWork_Example.Entities.Delete;
+﻿using System.ComponentModel.DataAnnotations;
+using Repository_UnitOfWork_Example.Entities.Delete;
 
 namespace Repository_UnitOfWork_Example.Entities.Models;
 
@@ -6,7 +7,7 @@ public class User : DeleteEntity<int>
 {
     public string UserName { get; set; } = null!;
 
-    /*[EmailAddress]*/
+    [EmailAddress]
     public string? Email { get; set; }
 
     public short DepartmentId { get; set; }
