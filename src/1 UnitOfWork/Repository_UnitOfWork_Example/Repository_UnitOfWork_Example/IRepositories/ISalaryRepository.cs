@@ -2,7 +2,7 @@
 
 namespace Repository_UnitOfWork_Example.IRepositories;
 
-public interface ISalaryRepository : IRepository<Salary>
+public interface ISalaryRepository /*: IRepository<Salary>*/
 {
     Salary AddSalary(User user,
         float coefficientsSalary,
