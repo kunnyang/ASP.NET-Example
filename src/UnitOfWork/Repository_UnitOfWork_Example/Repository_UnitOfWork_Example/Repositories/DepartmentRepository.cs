@@ -6,7 +6,7 @@ namespace Repository_UnitOfWork_Example.Repositories;
 
 internal class DepartmentRepository : Repository<Department>, IDepartmentRepository
 {
-    public DepartmentRepository(AppDbContext context) : base(context)
+    public DepartmentRepository(DbFactory dbFactory) : base(dbFactory)
     {
     }
 

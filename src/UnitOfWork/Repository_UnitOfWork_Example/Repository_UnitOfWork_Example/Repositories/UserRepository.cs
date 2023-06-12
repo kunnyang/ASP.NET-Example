@@ -6,7 +6,7 @@ namespace Repository_UnitOfWork_Example.Repositories;
 
 internal class UserRepository : Repository<User>, IUserRepository
 {
-    public UserRepository(AppDbContext context) : base(context)
+    public UserRepository(DbFactory dbFactory) : base(dbFactory)
     {
     }
 

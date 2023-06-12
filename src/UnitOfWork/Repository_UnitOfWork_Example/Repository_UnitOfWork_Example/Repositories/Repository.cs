@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 using Repository_UnitOfWork_Example.Data;
 using Repository_UnitOfWork_Example.Entities.Audit;
 using Repository_UnitOfWork_Example.Entities.Delete;
@@ -8,18 +9,21 @@ namespace Repository_UnitOfWork_Example.Repositories;
 
 public class Repository<T> : IRepository<T> where T : class
 {
-    private readonly AppDbContext _context;
+    private readonly DbFactory _dbFactory;
 
-    public Repository(AppDbContext context)
+
+    public Repository(DbFactory dbFactory)
     {
-        _context = context;
+        _dbFactory = dbFactory;
     }
+
+    private DbSet<T> DbSet => _dbFactory.DbContext.Set<T>();
 
     public void Add(T entity)
     {
         if (typeof(IAuditEntity).IsAssignableFrom(typeof(T))) ((IAuditEntity)entity).CreatedAt = DateTime.Now;
 
-        _context.Set<T>().Add(entity);
+        DbSet.Add(entity);
     }
 
     public void Delete(T entity)
@@ -27,22 +31,22 @@ public class Repository<T> : IRepository<T> where T : class
         if (typeof(IDeleteEntity).IsAssignableFrom(typeof(T)))
         {
             ((IDeleteEntity)entity).Deleted = true;
-            _context.Set<T>().Update(entity);
+            DbSet.Update(entity);
         }
         else
         {
-            _context.Set<T>().Remove(entity);
+            DbSet.Remove(entity);
         }
     }
 
     public void Update(T entity)
     {
         if (typeof(IAuditEntity).IsAssignableFrom(typeof(T))) ((IAuditEntity)entity).UpdatedAt = DateTime.Now;
-        _context.Set<T>().Update(entity);
+        DbSet.Update(entity);
     }
 
     public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression)
     {
-        return _context.Set<T>().Where(expression);
+        return DbSet.Where(expression);
     }
 }

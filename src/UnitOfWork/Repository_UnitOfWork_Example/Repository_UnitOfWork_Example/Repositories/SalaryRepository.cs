@@ -6,7 +6,7 @@ namespace Repository_UnitOfWork_Example.Repositories;
 
 internal class SalaryRepository : Repository<Salary>, ISalaryRepository
 {
-    public SalaryRepository(AppDbContext context) : base(context)
+    public SalaryRepository(DbFactory dbFactory) : base(dbFactory)
     {
     }
 

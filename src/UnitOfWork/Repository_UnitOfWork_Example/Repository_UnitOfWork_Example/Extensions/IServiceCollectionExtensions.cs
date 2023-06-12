@@ -16,13 +16,16 @@ public static class ServiceCollectionExtensions
             o.UseSqlServer(configuration.GetConnectionString("AppDbContext"));
         });
 
+
+        services.AddScoped<Func<AppDbContext>>(provider => provider.GetRequiredService<AppDbContext>);
+        services.AddScoped<DbFactory>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
         return services;
     }
 
     public static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         services
-            .AddScoped<IUnitOfWork,UnitOfWork>()
             .AddScoped(typeof(IRepository<>), typeof(Repository<>))
             .AddScoped<IDepartmentRepository, DepartmentRepository>()
             .AddScoped<IUserRepository, UserRepository>()
